@@ -26,10 +26,11 @@ allprojects {
 
   repositories {
     mavenCentral()
+    mavenLocal()
 
     maven {
       setName("elytrium-repo")
-      setUrl("https://maven.elytrium.net/repo/")
+      setUrl("https://maven.jnngl.me/public/")
     }
     maven {
       setName("papermc-repo")
