@@ -116,15 +116,16 @@ import org.slf4j.Logger;
     name = "LimboAPI",
     version = BuildConstants.LIMBO_VERSION,
     description = "Velocity plugin for making virtual servers.",
-    url = "https://elytrium.net/",
+    url = "https://cubedcon.com/",
     authors = {
         "Elytrium (https://elytrium.net/)",
+        "Paul19988 (https://paulcodes.co.uk/)",
     }
 )
 @SuppressFBWarnings("MS_EXPOSE_REP")
 public class LimboAPI implements LimboFactory {
 
-  private static final int SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER = 763;
+  private static final int SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER = 764;
 
   @MonotonicNonNull
   private static Logger LOGGER;
@@ -167,13 +168,13 @@ public class LimboAPI implements LimboFactory {
 
     int maximumProtocolVersionNumber = ProtocolVersion.MAXIMUM_VERSION.getProtocol();
     if (maximumProtocolVersionNumber < SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER) {
-      LOGGER.error("Please update Velocity (https://papermc.io/downloads#Velocity). LimboAPI support: https://ely.su/discord");
+      LOGGER.error("Please update Velocity (https://papermc.io/downloads#Velocity).");
       this.server.shutdown();
       return;
     } else if (maximumProtocolVersionNumber != SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER) {
       LOGGER.warn("Current LimboAPI version doesn't support current Velocity version (protocol version numbers: supported - {}, velocity - {})",
           SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER, maximumProtocolVersionNumber);
-      LOGGER.warn("Please update LimboAPI (https://github.com/Elytrium/LimboAPI/releases). LimboAPI support: https://ely.su/discord");
+      LOGGER.warn("Please update LimboAPI (https://github.com/CubedCon/LimboAPI/tree/master).");
     }
 
     LOGGER.info("Initializing Simple Virtual World system...");
@@ -200,10 +201,8 @@ public class LimboAPI implements LimboFactory {
     if (Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX) == YamlConfig.LoadResult.CONFIG_NOT_EXISTS) {
       LOGGER.warn("************* FIRST LAUNCH *************");
       LOGGER.warn("Thanks for installing LimboAPI!");
-      LOGGER.warn("(C) 2021 - 2023 Elytrium");
+      LOGGER.warn("(C) 2021 - 2023 CubedCon");
       LOGGER.warn("");
-      LOGGER.warn("Check out our plugins here: https://ely.su/github <3");
-      LOGGER.warn("Discord: https://ely.su/discord");
       LOGGER.warn("****************************************");
     }
 

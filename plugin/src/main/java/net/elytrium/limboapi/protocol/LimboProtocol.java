@@ -93,24 +93,24 @@ public class LimboProtocol {
       LIMBO_STATE_REGISTRY = (StateRegistry) UNSAFE.allocateInstance(StateRegistry.class);
 
       VERSIONS_GETTER = MethodHandles.privateLookupIn(StateRegistry.PacketRegistry.class, MethodHandles.lookup())
-          .findGetter(StateRegistry.PacketRegistry.class, "versions", Map.class);
+              .findGetter(StateRegistry.PacketRegistry.class, "versions", Map.class);
       VERSIONS_FIELD = StateRegistry.PacketRegistry.class.getDeclaredField("versions");
       VERSIONS_FIELD.setAccessible(true);
 
       PACKET_ID_TO_SUPPLIER_GETTER = MethodHandles.privateLookupIn(StateRegistry.PacketRegistry.ProtocolRegistry.class, MethodHandles.lookup())
-          .findGetter(StateRegistry.PacketRegistry.ProtocolRegistry.class, "packetIdToSupplier", IntObjectMap.class);
+              .findGetter(StateRegistry.PacketRegistry.ProtocolRegistry.class, "packetIdToSupplier", IntObjectMap.class);
       PACKET_ID_TO_SUPPLIER_FIELD = StateRegistry.PacketRegistry.ProtocolRegistry.class.getDeclaredField("packetIdToSupplier");
       PACKET_ID_TO_SUPPLIER_FIELD.setAccessible(true);
 
       PACKET_CLASS_TO_ID_GETTER = MethodHandles.privateLookupIn(StateRegistry.PacketRegistry.ProtocolRegistry.class, MethodHandles.lookup())
-          .findGetter(StateRegistry.PacketRegistry.ProtocolRegistry.class, "packetClassToId", Object2IntMap.class);
+              .findGetter(StateRegistry.PacketRegistry.ProtocolRegistry.class, "packetClassToId", Object2IntMap.class);
       PACKET_CLASS_TO_ID_FIELD = StateRegistry.PacketRegistry.ProtocolRegistry.class.getDeclaredField("packetClassToId");
       PACKET_CLASS_TO_ID_FIELD.setAccessible(true);
 
       CLIENTBOUND_REGISTRY_GETTER = MethodHandles.privateLookupIn(StateRegistry.class, MethodHandles.lookup())
-          .findGetter(StateRegistry.class, "clientbound", StateRegistry.PacketRegistry.class);
+              .findGetter(StateRegistry.class, "clientbound", StateRegistry.PacketRegistry.class);
       SERVERBOUND_REGISTRY_GETTER = MethodHandles.privateLookupIn(StateRegistry.class, MethodHandles.lookup())
-          .findGetter(StateRegistry.class, "serverbound", StateRegistry.PacketRegistry.class);
+              .findGetter(StateRegistry.class, "serverbound", StateRegistry.PacketRegistry.class);
 
       PLAY_CLIENTBOUND_REGISTRY = (StateRegistry.PacketRegistry) CLIENTBOUND_REGISTRY_GETTER.invokeExact(StateRegistry.PLAY);
       PLAY_SERVERBOUND_REGISTRY = (StateRegistry.PacketRegistry) SERVERBOUND_REGISTRY_GETTER.invokeExact(StateRegistry.PLAY);
@@ -122,12 +122,12 @@ public class LimboProtocol {
       LIMBO_SERVERBOUND_REGISTRY = (StateRegistry.PacketRegistry) SERVERBOUND_REGISTRY_GETTER.invokeExact(LIMBO_STATE_REGISTRY);
 
       REGISTER_METHOD = MethodHandles.privateLookupIn(StateRegistry.PacketRegistry.class, MethodHandles.lookup())
-          .findVirtual(StateRegistry.PacketRegistry.class, "register",
-              MethodType.methodType(void.class, Class.class, Supplier.class, StateRegistry.PacketMapping[].class));
+              .findVirtual(StateRegistry.PacketRegistry.class, "register",
+                      MethodType.methodType(void.class, Class.class, Supplier.class, StateRegistry.PacketMapping[].class));
 
       PACKET_MAPPING_CONSTRUCTOR = MethodHandles.privateLookupIn(StateRegistry.PacketRegistry.class, MethodHandles.lookup())
-          .findConstructor(StateRegistry.PacketMapping.class,
-              MethodType.methodType(void.class, int.class, ProtocolVersion.class, ProtocolVersion.class, boolean.class));
+              .findConstructor(StateRegistry.PacketMapping.class,
+                      MethodType.methodType(void.class, int.class, ProtocolVersion.class, ProtocolVersion.class, boolean.class));
     } catch (Throwable e) {
       throw new ReflectionException(e);
     }
@@ -147,7 +147,7 @@ public class LimboProtocol {
     // Overlay packets from PLAY state registry.
     // P.S. I hate it when someone uses var in code, but there I had no choice.
     var playProtocolRegistryVersions =
-        (Map<ProtocolVersion, StateRegistry.PacketRegistry.ProtocolRegistry>) VERSIONS_GETTER.invokeExact(playRegistry);
+            (Map<ProtocolVersion, StateRegistry.PacketRegistry.ProtocolRegistry>) VERSIONS_GETTER.invokeExact(playRegistry);
     Map<ProtocolVersion, StateRegistry.PacketRegistry.ProtocolRegistry> versions = new EnumMap<>(ProtocolVersion.class);
     for (ProtocolVersion version : ProtocolVersion.values()) {
       if (!version.isLegacy() && !version.isUnknown()) {
@@ -181,235 +181,267 @@ public class LimboProtocol {
 
   public static void init() throws Throwable {
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        ChangeGameStatePacket.class, ChangeGameStatePacket::new,
-        createMapping(0x2B, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x1E, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x20, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x1E, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x1F, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x1E, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x1D, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x1E, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x1B, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x1D, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x1C, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x1F, ProtocolVersion.MINECRAFT_1_19_4, true)
+            ChangeGameStatePacket.class, ChangeGameStatePacket::new,
+            createMapping(0x2B, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x1E, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x1E, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x1F, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x1E, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x1D, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x1E, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x1B, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x1D, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x1C, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x1F, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x1F, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        ChunkDataPacket.class, ChunkDataPacket::new,
-        createMapping(0x21, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x20, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x22, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x21, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x22, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x21, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x20, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x22, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x1F, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x21, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x20, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x24, ProtocolVersion.MINECRAFT_1_19_4, true)
+            ChunkDataPacket.class, ChunkDataPacket::new,
+            createMapping(0x21, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x22, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x21, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x22, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x21, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x22, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x1F, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x21, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x24, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x24, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x25, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        DefaultSpawnPositionPacket.class, DefaultSpawnPositionPacket::new,
-        createMapping(0x05, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x43, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x45, ProtocolVersion.MINECRAFT_1_12, true),
-        createMapping(0x46, ProtocolVersion.MINECRAFT_1_12_1, true),
-        createMapping(0x49, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x4D, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x4E, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x42, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x4B, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x4A, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x4D, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x4C, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x50, ProtocolVersion.MINECRAFT_1_19_4, true)
+            DefaultSpawnPositionPacket.class, DefaultSpawnPositionPacket::new,
+            createMapping(0x05, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x43, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x45, ProtocolVersion.MINECRAFT_1_12, true),
+            createMapping(0x46, ProtocolVersion.MINECRAFT_1_12_1, true),
+            createMapping(0x49, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x4D, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x4E, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x42, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x4B, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x4A, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x4D, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x4C, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x50, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x50, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x52, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        MapDataPacket.class, MapDataPacket::new,
-        createMapping(0x34, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x24, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x26, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x27, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x26, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x25, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x27, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x24, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x26, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x25, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x29, ProtocolVersion.MINECRAFT_1_19_4, true)
+            MapDataPacket.class, MapDataPacket::new,
+            createMapping(0x34, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x24, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x26, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x27, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x26, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x25, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x27, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x24, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x26, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x25, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x29, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x29, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x2A, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        PlayerAbilitiesPacket.class, PlayerAbilitiesPacket::new,
-        createMapping(0x39, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x2B, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x2C, ProtocolVersion.MINECRAFT_1_12_1, true),
-        createMapping(0x2E, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x31, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x32, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x31, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x30, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x32, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x2F, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x31, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x30, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x34, ProtocolVersion.MINECRAFT_1_19_4, true)
+            PlayerAbilitiesPacket.class, PlayerAbilitiesPacket::new,
+            createMapping(0x39, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x2B, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x2C, ProtocolVersion.MINECRAFT_1_12_1, true),
+            createMapping(0x2E, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x31, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x32, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x31, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x30, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x32, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x2F, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x31, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x30, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x34, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x34, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x36, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        PositionRotationPacket.class, PositionRotationPacket::new,
-        createMapping(0x08, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x2E, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x2F, ProtocolVersion.MINECRAFT_1_12_1, true),
-        createMapping(0x32, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x35, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x36, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x35, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x34, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x38, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x36, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x39, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x38, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x3C, ProtocolVersion.MINECRAFT_1_19_4, true)
+            PositionRotationPacket.class, PositionRotationPacket::new,
+            createMapping(0x08, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x2E, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x2F, ProtocolVersion.MINECRAFT_1_12_1, true),
+            createMapping(0x32, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x35, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x36, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x35, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x34, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x38, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x36, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x39, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x38, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x3C, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x3C, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x3E, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        SetExperiencePacket.class, SetExperiencePacket::new,
-        createMapping(0x1F, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x3D, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x3F, ProtocolVersion.MINECRAFT_1_12, true),
-        createMapping(0x40, ProtocolVersion.MINECRAFT_1_12_1, true),
-        createMapping(0x43, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x47, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x48, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x51, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x54, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x52, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x56, ProtocolVersion.MINECRAFT_1_19_4, true)
+            SetExperiencePacket.class, SetExperiencePacket::new,
+            createMapping(0x1F, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x3D, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x3F, ProtocolVersion.MINECRAFT_1_12, true),
+            createMapping(0x40, ProtocolVersion.MINECRAFT_1_12_1, true),
+            createMapping(0x43, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x47, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x48, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x51, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x54, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x52, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x56, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x56, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x58, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        SetSlotPacket.class, SetSlotPacket::new,
-        createMapping(0x2F, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x17, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x17, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_16_2, true),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x12, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_4, true)
+            SetSlotPacket.class, SetSlotPacket::new,
+            createMapping(0x2F, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_16_2, true),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x12, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        TimeUpdatePacket.class, TimeUpdatePacket::new,
-        createMapping(0x03, ProtocolVersion.MINECRAFT_1_7_2, true),
-        createMapping(0x44, ProtocolVersion.MINECRAFT_1_9, true),
-        createMapping(0x46, ProtocolVersion.MINECRAFT_1_12, true),
-        createMapping(0x47, ProtocolVersion.MINECRAFT_1_12_1, true),
-        createMapping(0x4A, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x4E, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x4F, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x4E, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x58, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x59, ProtocolVersion.MINECRAFT_1_18, true),
-        createMapping(0x5C, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x5A, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x5E, ProtocolVersion.MINECRAFT_1_19_4, true)
+            TimeUpdatePacket.class, TimeUpdatePacket::new,
+            createMapping(0x03, ProtocolVersion.MINECRAFT_1_7_2, true),
+            createMapping(0x44, ProtocolVersion.MINECRAFT_1_9, true),
+            createMapping(0x46, ProtocolVersion.MINECRAFT_1_12, true),
+            createMapping(0x47, ProtocolVersion.MINECRAFT_1_12_1, true),
+            createMapping(0x4A, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x4E, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x4F, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x4E, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x58, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x59, ProtocolVersion.MINECRAFT_1_18, true),
+            createMapping(0x5C, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x5A, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x5E, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x5E, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x60, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        UpdateViewPositionPacket.class, UpdateViewPositionPacket::new, // ViewCentre, ChunkRenderDistanceCenter
-        createMapping(0x40, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x41, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x40, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x49, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x48, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x4B, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x4A, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x4E, ProtocolVersion.MINECRAFT_1_19_4, true)
+            UpdateViewPositionPacket.class, UpdateViewPositionPacket::new, // ViewCentre, ChunkRenderDistanceCenter
+            createMapping(0x40, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x41, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x40, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x49, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x48, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x4B, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x4A, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x4E, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x4E, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x50, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.CLIENTBOUND,
-        UpdateTagsPacket.class, UpdateTagsPacket::new,
-        createMapping(0x55, ProtocolVersion.MINECRAFT_1_13, true),
-        createMapping(0x5B, ProtocolVersion.MINECRAFT_1_14, true),
-        createMapping(0x5C, ProtocolVersion.MINECRAFT_1_15, true),
-        createMapping(0x5B, ProtocolVersion.MINECRAFT_1_16, true),
-        createMapping(0x66, ProtocolVersion.MINECRAFT_1_17, true),
-        createMapping(0x67, ProtocolVersion.MINECRAFT_1_18, true),
-        createMapping(0x68, ProtocolVersion.MINECRAFT_1_19, true),
-        createMapping(0x6B, ProtocolVersion.MINECRAFT_1_19_1, true),
-        createMapping(0x6A, ProtocolVersion.MINECRAFT_1_19_3, true),
-        createMapping(0x6E, ProtocolVersion.MINECRAFT_1_19_4, true)
+            UpdateTagsPacket.class, UpdateTagsPacket::new,
+            createMapping(0x55, ProtocolVersion.MINECRAFT_1_13, true),
+            createMapping(0x5B, ProtocolVersion.MINECRAFT_1_14, true),
+            createMapping(0x5C, ProtocolVersion.MINECRAFT_1_15, true),
+            createMapping(0x5B, ProtocolVersion.MINECRAFT_1_16, true),
+            createMapping(0x66, ProtocolVersion.MINECRAFT_1_17, true),
+            createMapping(0x67, ProtocolVersion.MINECRAFT_1_18, true),
+            createMapping(0x68, ProtocolVersion.MINECRAFT_1_19, true),
+            createMapping(0x6B, ProtocolVersion.MINECRAFT_1_19_1, true),
+            createMapping(0x6A, ProtocolVersion.MINECRAFT_1_19_3, true),
+            createMapping(0x6E, ProtocolVersion.MINECRAFT_1_19_4, true),
+            createMapping(0x6E, ProtocolVersion.MINECRAFT_1_20, true),
+            createMapping(0x70, ProtocolVersion.MINECRAFT_1_20_2, true) // 1.20.2
     );
 
     register(LIMBO_STATE_REGISTRY, PacketDirection.SERVERBOUND,
-        MovePacket.class, MovePacket::new,
-        createMapping(0x06, ProtocolVersion.MINECRAFT_1_7_2, false),
-        createMapping(0x0D, ProtocolVersion.MINECRAFT_1_9, false),
-        createMapping(0x0F, ProtocolVersion.MINECRAFT_1_12, false),
-        createMapping(0x0E, ProtocolVersion.MINECRAFT_1_12_1, false),
-        createMapping(0x11, ProtocolVersion.MINECRAFT_1_13, false),
-        createMapping(0x12, ProtocolVersion.MINECRAFT_1_14, false),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_16, false),
-        createMapping(0x12, ProtocolVersion.MINECRAFT_1_17, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_19, false),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_1, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_3, false),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_4, false)
+            MovePacket.class, MovePacket::new,
+            createMapping(0x06, ProtocolVersion.MINECRAFT_1_7_2, false),
+            createMapping(0x0D, ProtocolVersion.MINECRAFT_1_9, false),
+            createMapping(0x0F, ProtocolVersion.MINECRAFT_1_12, false),
+            createMapping(0x0E, ProtocolVersion.MINECRAFT_1_12_1, false),
+            createMapping(0x11, ProtocolVersion.MINECRAFT_1_13, false),
+            createMapping(0x12, ProtocolVersion.MINECRAFT_1_14, false),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_16, false),
+            createMapping(0x12, ProtocolVersion.MINECRAFT_1_17, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_19, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_1, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_3, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_4, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_20, false),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_20_2, false) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.SERVERBOUND,
-        MovePositionOnlyPacket.class, MovePositionOnlyPacket::new,
-        createMapping(0x04, ProtocolVersion.MINECRAFT_1_7_2, false),
-        createMapping(0x0C, ProtocolVersion.MINECRAFT_1_9, false),
-        createMapping(0x0E, ProtocolVersion.MINECRAFT_1_12, false),
-        createMapping(0x0D, ProtocolVersion.MINECRAFT_1_12_1, false),
-        createMapping(0x10, ProtocolVersion.MINECRAFT_1_13, false),
-        createMapping(0x11, ProtocolVersion.MINECRAFT_1_14, false),
-        createMapping(0x12, ProtocolVersion.MINECRAFT_1_16, false),
-        createMapping(0x11, ProtocolVersion.MINECRAFT_1_17, false),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_19, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_1, false),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_19_3, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_4, false)
+            MovePositionOnlyPacket.class, MovePositionOnlyPacket::new,
+            createMapping(0x04, ProtocolVersion.MINECRAFT_1_7_2, false),
+            createMapping(0x0C, ProtocolVersion.MINECRAFT_1_9, false),
+            createMapping(0x0E, ProtocolVersion.MINECRAFT_1_12, false),
+            createMapping(0x0D, ProtocolVersion.MINECRAFT_1_12_1, false),
+            createMapping(0x10, ProtocolVersion.MINECRAFT_1_13, false),
+            createMapping(0x11, ProtocolVersion.MINECRAFT_1_14, false),
+            createMapping(0x12, ProtocolVersion.MINECRAFT_1_16, false),
+            createMapping(0x11, ProtocolVersion.MINECRAFT_1_17, false),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_19, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_1, false),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_19_3, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_19_4, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_20, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_20_2, false) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.SERVERBOUND,
-        MoveRotationOnlyPacket.class, MoveRotationOnlyPacket::new,
-        createMapping(0x05, ProtocolVersion.MINECRAFT_1_7_2, false),
-        createMapping(0x0E, ProtocolVersion.MINECRAFT_1_9, false),
-        createMapping(0x10, ProtocolVersion.MINECRAFT_1_12, false),
-        createMapping(0x0F, ProtocolVersion.MINECRAFT_1_12_1, false),
-        createMapping(0x12, ProtocolVersion.MINECRAFT_1_13, false),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_14, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_16, false),
-        createMapping(0x13, ProtocolVersion.MINECRAFT_1_17, false),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_19, false),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_1, false),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_3, false),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_4, false)
+            MoveRotationOnlyPacket.class, MoveRotationOnlyPacket::new,
+            createMapping(0x05, ProtocolVersion.MINECRAFT_1_7_2, false),
+            createMapping(0x0E, ProtocolVersion.MINECRAFT_1_9, false),
+            createMapping(0x10, ProtocolVersion.MINECRAFT_1_12, false),
+            createMapping(0x0F, ProtocolVersion.MINECRAFT_1_12_1, false),
+            createMapping(0x12, ProtocolVersion.MINECRAFT_1_13, false),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_14, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_16, false),
+            createMapping(0x13, ProtocolVersion.MINECRAFT_1_17, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_19, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_1, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_19_3, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_4, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_20, false),
+            createMapping(0x18, ProtocolVersion.MINECRAFT_1_20_2, false) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.SERVERBOUND,
-        MoveOnGroundOnlyPacket.class, MoveOnGroundOnlyPacket::new,
-        createMapping(0x03, ProtocolVersion.MINECRAFT_1_7_2, false),
-        createMapping(0x0F, ProtocolVersion.MINECRAFT_1_9, false),
-        createMapping(0x0D, ProtocolVersion.MINECRAFT_1_12, false),
-        createMapping(0x0C, ProtocolVersion.MINECRAFT_1_12_1, false),
-        createMapping(0x0F, ProtocolVersion.MINECRAFT_1_13, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_14, false),
-        createMapping(0x15, ProtocolVersion.MINECRAFT_1_16, false),
-        createMapping(0x14, ProtocolVersion.MINECRAFT_1_17, false),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_19, false),
-        createMapping(0x17, ProtocolVersion.MINECRAFT_1_19_1, false),
-        createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_3, false),
-        createMapping(0x17, ProtocolVersion.MINECRAFT_1_19_4, false)
+            MoveOnGroundOnlyPacket.class, MoveOnGroundOnlyPacket::new,
+            createMapping(0x03, ProtocolVersion.MINECRAFT_1_7_2, false),
+            createMapping(0x0F, ProtocolVersion.MINECRAFT_1_9, false),
+            createMapping(0x0D, ProtocolVersion.MINECRAFT_1_12, false),
+            createMapping(0x0C, ProtocolVersion.MINECRAFT_1_12_1, false),
+            createMapping(0x0F, ProtocolVersion.MINECRAFT_1_13, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_14, false),
+            createMapping(0x15, ProtocolVersion.MINECRAFT_1_16, false),
+            createMapping(0x14, ProtocolVersion.MINECRAFT_1_17, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_19, false),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_19_1, false),
+            createMapping(0x16, ProtocolVersion.MINECRAFT_1_19_3, false),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_19_4, false),
+            createMapping(0x17, ProtocolVersion.MINECRAFT_1_20, false),
+            createMapping(0x19, ProtocolVersion.MINECRAFT_1_20_2, false) // 1.20.2
     );
     register(LIMBO_STATE_REGISTRY, PacketDirection.SERVERBOUND,
-        TeleportConfirmPacket.class, TeleportConfirmPacket::new,
-        createMapping(0x00, ProtocolVersion.MINECRAFT_1_9, false)
+            TeleportConfirmPacket.class, TeleportConfirmPacket::new,
+            createMapping(0x00, ProtocolVersion.MINECRAFT_1_9, false)
     );
 
     register(PLAY_SERVERBOUND_REGISTRY,
-        PlayerChatSessionPacket.class, PlayerChatSessionPacket::new,
-        createMapping(0x20, ProtocolVersion.MINECRAFT_1_19_3, false),
-        createMapping(0x06, ProtocolVersion.MINECRAFT_1_19_4, false)
+            PlayerChatSessionPacket.class, PlayerChatSessionPacket::new,
+            createMapping(0x20, ProtocolVersion.MINECRAFT_1_19_3, false),
+            createMapping(0x06, ProtocolVersion.MINECRAFT_1_19_4, false),
+            createMapping(0x06, ProtocolVersion.MINECRAFT_1_20, false),
+            createMapping(0x06, ProtocolVersion.MINECRAFT_1_20_2, false) // 1.20.2
     );
   }
 
@@ -469,8 +501,8 @@ public class LimboProtocol {
           var classToId = (Object2IntMap<Class<? extends MinecraftPacket>>) PACKET_CLASS_TO_ID_GETTER.invokeExact(protocolRegistry);
           if (idToSupplier instanceof OverlayMap<?, ?> && classToId instanceof OverlayMap<?, ?>) {
             return Stream.of(
-                (OverlayMap<?, ?>) idToSupplier,
-                (OverlayMap<?, ?>) classToId
+                    (OverlayMap<?, ?>) idToSupplier,
+                    (OverlayMap<?, ?>) classToId
             );
           } else {
             return Stream.empty();
@@ -493,7 +525,7 @@ public class LimboProtocol {
   }
 
   private static StateRegistry.PacketMapping createMapping(int id, ProtocolVersion version, ProtocolVersion lastValidProtocolVersion, boolean encodeOnly)
-      throws Throwable {
+          throws Throwable {
     return (StateRegistry.PacketMapping) PACKET_MAPPING_CONSTRUCTOR.invokeExact(id, version, lastValidProtocolVersion, encodeOnly);
   }
 
