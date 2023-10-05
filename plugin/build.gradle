@@ -15,7 +15,7 @@ dependencies {
   implementation("net.elytrium:fastprepare:$fastPrepareVersion")
   compileOnly("com.github.Dreeam-qwq.Velocity:velocity-api:$velocityVersion")
   annotationProcessor("com.github.Dreeam-qwq.Velocity:velocity-api:$velocityVersion")
-  compileOnly("com.velocitypowered:velocity-proxy:3.2.0-SNAPSHOT") // From Elytrium Repo.
+  compileOnly("com.github.Dreeam-qwq.Velocity:velocity-proxy:$velocityVersion") // From Elytrium Repo.
   compileOnly("com.github.Dreeam-qwq.Velocity:velocity-native:$velocityVersion")
 
   // Needs for some velocity methods.

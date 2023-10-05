@@ -387,11 +387,11 @@ public class LimboImpl implements Limbo {
           this,
           player,
           handler,
-          connection.getSessionHandler(),
+          connection.getActiveSessionHandler(),
           previousServer,
           () -> this.limboName
       );
-      connection.setSessionHandler(sessionHandler);
+      connection.setActiveSessionHandler(StateRegistry.PLAY, sessionHandler);
 
       connection.flush();
 
@@ -876,7 +876,7 @@ public class LimboImpl implements Limbo {
       try (InputStream stream = LimboAPI.class.getResourceAsStream("/mapping/damage_type_1_20.nbt")) {
         DAMAGE_TYPE_120 = BinaryTagIO.unlimitedReader().read(Objects.requireNonNull(stream), BinaryTagIO.Compression.GZIP);
       }
-      try (InputStream stream = LimboAPI.class.getResourceAsStream("/mapping/damage_type_1_20.2.nbt")) {
+      try (InputStream stream = LimboAPI.class.getResourceAsStream("/mapping/damage_type_1_20.nbt")) {
         DAMAGE_TYPE_1202 = BinaryTagIO.unlimitedReader().read(Objects.requireNonNull(stream), BinaryTagIO.Compression.GZIP);
       }
     } catch (NoSuchFieldException | IllegalAccessException e) {

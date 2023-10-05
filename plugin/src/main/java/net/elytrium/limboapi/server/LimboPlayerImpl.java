@@ -128,7 +128,7 @@ public class LimboPlayerImpl implements LimboPlayer {
           mapID,
           this.version.compareTo(ProtocolVersion.MINECRAFT_1_17) < 0
               ? null
-              : CompoundBinaryTag.builder().put("map", IntBinaryTag.of(mapID)).build()
+              : CompoundBinaryTag.builder().put("map", IntBinaryTag.intBinaryTag(mapID)).build()
       );
     }
 
@@ -261,7 +261,7 @@ public class LimboPlayerImpl implements LimboPlayer {
 
   @Override
   public void disconnect() {
-    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandler();
+    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandlerForRegistry(StateRegistry.PLAY);
     if (handler != null) {
       if (this.plugin.hasLoginQueue(this.player)) {
         handler.disconnected();
@@ -281,7 +281,7 @@ public class LimboPlayerImpl implements LimboPlayer {
 
   @Override
   public void disconnect(RegisteredServer server) {
-    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandler();
+    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandlerForRegistry(StateRegistry.PLAY);
     if (handler != null) {
       if (this.plugin.hasLoginQueue(this.player)) {
         handler.disconnected();
@@ -354,7 +354,7 @@ public class LimboPlayerImpl implements LimboPlayer {
 
   @Override
   public int getPing() {
-    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandler();
+    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandlerForRegistry(StateRegistry.STATUS);
     if (handler != null) {
       return handler.getPing();
     } else {

@@ -25,6 +25,7 @@ import com.velocitypowered.proxy.connection.client.AuthSessionHandler;
 import com.velocitypowered.proxy.connection.client.ConnectedPlayer;
 import com.velocitypowered.proxy.network.Connections;
 import com.velocitypowered.proxy.protocol.MinecraftPacket;
+import com.velocitypowered.proxy.protocol.StateRegistry;
 import com.velocitypowered.proxy.protocol.packet.KeepAlive;
 import com.velocitypowered.proxy.protocol.packet.PluginMessage;
 import com.velocitypowered.proxy.protocol.packet.chat.keyed.KeyedPlayerChat;
@@ -295,7 +296,7 @@ public class LimboSessionHandlerImpl implements MinecraftSessionHandler {
     }
 
     if (!(this.originalHandler instanceof AuthSessionHandler) && !(this.originalHandler instanceof LimboSessionHandlerImpl)) {
-      connection.eventLoop().execute(() -> connection.setSessionHandler(this.originalHandler));
+      connection.eventLoop().execute(() -> connection.setActiveSessionHandler(StateRegistry.PLAY, this.originalHandler));
     }
 
     ChannelPipeline pipeline = connection.getChannel().pipeline();
