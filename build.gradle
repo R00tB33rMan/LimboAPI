@@ -29,12 +29,16 @@ allprojects {
     mavenLocal()
 
     maven {
+      setName("jitpack-repo")
+      setUrl("https://jitpack.io")
+    }
+    maven {
       setName("elytrium-repo")
       setUrl("https://maven.jnngl.me/public/")
     }
     maven {
       setName("papermc-repo")
-      setUrl("https://papermc.io/repo/repository/maven-public/")
+      setUrl("https://repo.papermc.io/repository/maven-public/")
     }
   }
 

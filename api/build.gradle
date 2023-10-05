@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-  compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
+  compileOnly("com.github.Dreeam-qwq.Velocity:velocity-api:$velocityVersion")
   api("net.elytrium.commons:config:$elytriumCommonsVersion")
   api("net.elytrium.commons:utils:$elytriumCommonsVersion")
   api("net.elytrium.commons:velocity:$elytriumCommonsVersion")

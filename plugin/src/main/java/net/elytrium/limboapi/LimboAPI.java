@@ -116,7 +116,7 @@ import org.slf4j.Logger;
     name = "LimboAPI",
     version = BuildConstants.LIMBO_VERSION,
     description = "Velocity plugin for making virtual servers.",
-    url = "https://cubedcon.com/",
+    url = "https://elytrium.net/",
     authors = {
         "Elytrium (https://elytrium.net/)",
         "Paul19988 (https://paulcodes.co.uk/)",
@@ -174,7 +174,7 @@ public class LimboAPI implements LimboFactory {
     } else if (maximumProtocolVersionNumber != SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER) {
       LOGGER.warn("Current LimboAPI version doesn't support current Velocity version (protocol version numbers: supported - {}, velocity - {})",
           SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER, maximumProtocolVersionNumber);
-      LOGGER.warn("Please update LimboAPI (https://github.com/CubedCon/LimboAPI/tree/master).");
+      LOGGER.warn("Please update LimboAPI (https://github.com/Elytrium/LimboAPI).");
     }
 
     LOGGER.info("Initializing Simple Virtual World system...");
@@ -201,7 +201,7 @@ public class LimboAPI implements LimboFactory {
     if (Settings.IMP.reload(this.configFile, Settings.IMP.PREFIX) == YamlConfig.LoadResult.CONFIG_NOT_EXISTS) {
       LOGGER.warn("************* FIRST LAUNCH *************");
       LOGGER.warn("Thanks for installing LimboAPI!");
-      LOGGER.warn("(C) 2021 - 2023 CubedCon");
+      LOGGER.warn("(C) 2021 - 2023 Elytrium");
       LOGGER.warn("");
       LOGGER.warn("****************************************");
     }

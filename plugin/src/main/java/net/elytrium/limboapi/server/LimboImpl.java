@@ -658,9 +658,9 @@ public class LimboImpl implements Limbo {
         registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_1194);
       } else if (version.compareTo(ProtocolVersion.MINECRAFT_1_20) >= 0) {
         registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_120);
-     } else {
-       registryContainer.put("dimension", encodedDimensionRegistry);
-     }
+      } else {
+        registryContainer.put("dimension", encodedDimensionRegistry);
+      }
 
       if (version.compareTo(ProtocolVersion.MINECRAFT_1_20) == 0) {
         registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_120);
