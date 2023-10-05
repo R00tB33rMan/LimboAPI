@@ -168,13 +168,13 @@ public class LimboAPI implements LimboFactory {
 
     int maximumProtocolVersionNumber = ProtocolVersion.MAXIMUM_VERSION.getProtocol();
     if (maximumProtocolVersionNumber < SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER) {
-      LOGGER.error("Please update Velocity (https://papermc.io/downloads#Velocity).");
+      LOGGER.error("Please update Velocity (https://papermc.io/downloads#Velocity). LimboAPI support: https://ely.su/discord");
       this.server.shutdown();
       return;
     } else if (maximumProtocolVersionNumber != SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER) {
       LOGGER.warn("Current LimboAPI version doesn't support current Velocity version (protocol version numbers: supported - {}, velocity - {})",
           SUPPORTED_MAXIMUM_PROTOCOL_VERSION_NUMBER, maximumProtocolVersionNumber);
-      LOGGER.warn("Please update LimboAPI (https://github.com/Elytrium/LimboAPI).");
+      LOGGER.warn("Please update LimboAPI (https://github.com/Elytrium/LimboAPI). LimboAPI support: https://ely.su/discord");
     }
 
     LOGGER.info("Initializing Simple Virtual World system...");
@@ -203,6 +203,8 @@ public class LimboAPI implements LimboFactory {
       LOGGER.warn("Thanks for installing LimboAPI!");
       LOGGER.warn("(C) 2021 - 2023 Elytrium");
       LOGGER.warn("");
+      LOGGER.warn("Check out our plugins here: https://ely.su/github <3");
+      LOGGER.warn("Discord: https://ely.su/discord");
       LOGGER.warn("****************************************");
     }
 
