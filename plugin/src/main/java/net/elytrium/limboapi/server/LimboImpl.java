@@ -120,7 +120,6 @@ public class LimboImpl implements Limbo {
   private static final CompoundBinaryTag CHAT_TYPE_1191;
   private static final CompoundBinaryTag DAMAGE_TYPE_1194;
   private static final CompoundBinaryTag DAMAGE_TYPE_120;
-  private static final CompoundBinaryTag DAMAGE_TYPE_1202;
 
   private final Map<Class<? extends LimboSessionHandler>, PreparedPacket> brandMessages = new HashMap<>();
   private final LimboAPI plugin;
@@ -658,14 +657,6 @@ public class LimboImpl implements Limbo {
         registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_1194);
       } else if (version.compareTo(ProtocolVersion.MINECRAFT_1_20) >= 0) {
         registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_120);
-      } else {
-        registryContainer.put("dimension", encodedDimensionRegistry);
-      }
-
-      if (version.compareTo(ProtocolVersion.MINECRAFT_1_20) == 0) {
-        registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_120);
-      } else if (version.compareTo(ProtocolVersion.MINECRAFT_1_20_2) >= 0) {
-        registryContainer.put("minecraft:damage_type", DAMAGE_TYPE_1202);
       }
     } else {
       registryContainer.put("dimension", encodedDimensionRegistry);
@@ -875,9 +866,6 @@ public class LimboImpl implements Limbo {
       }
       try (InputStream stream = LimboAPI.class.getResourceAsStream("/mapping/damage_type_1_20.nbt")) {
         DAMAGE_TYPE_120 = BinaryTagIO.unlimitedReader().read(Objects.requireNonNull(stream), BinaryTagIO.Compression.GZIP);
-      }
-      try (InputStream stream = LimboAPI.class.getResourceAsStream("/mapping/damage_type_1_20.nbt")) {
-        DAMAGE_TYPE_1202 = BinaryTagIO.unlimitedReader().read(Objects.requireNonNull(stream), BinaryTagIO.Compression.GZIP);
       }
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new ReflectionException(e);
