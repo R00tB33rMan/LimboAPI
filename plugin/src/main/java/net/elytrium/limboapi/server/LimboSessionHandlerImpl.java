@@ -296,7 +296,7 @@ public class LimboSessionHandlerImpl implements MinecraftSessionHandler {
     }
 
     if (!(this.originalHandler instanceof AuthSessionHandler) && !(this.originalHandler instanceof LimboSessionHandlerImpl)) {
-      connection.eventLoop().execute(() -> connection.setActiveSessionHandler(StateRegistry.PLAY, this.originalHandler));
+      connection.eventLoop().execute(() -> connection.setActiveSessionHandler(connection.getState(), this.originalHandler));
     }
 
     ChannelPipeline pipeline = connection.getChannel().pipeline();

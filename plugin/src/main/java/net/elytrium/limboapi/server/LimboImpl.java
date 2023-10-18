@@ -390,7 +390,8 @@ public class LimboImpl implements Limbo {
           previousServer,
           () -> this.limboName
       );
-      connection.setActiveSessionHandler(StateRegistry.PLAY, sessionHandler);
+
+      connection.setActiveSessionHandler(connection.getState(), sessionHandler);
 
       connection.flush();
 

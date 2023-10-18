@@ -354,7 +354,7 @@ public class LimboPlayerImpl implements LimboPlayer {
 
   @Override
   public int getPing() {
-    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getSessionHandlerForRegistry(StateRegistry.STATUS);
+    LimboSessionHandlerImpl handler = (LimboSessionHandlerImpl) this.connection.getActiveSessionHandler();
     if (handler != null) {
       return handler.getPing();
     } else {

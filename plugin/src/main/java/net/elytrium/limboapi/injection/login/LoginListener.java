@@ -228,7 +228,7 @@ public class LoginListener {
         try {
           ClientPlaySessionHandler playHandler = new ClientPlaySessionHandler(this.server, player);
           SPAWNED_FIELD.invokeExact(playHandler, this.plugin.isLimboJoined(player));
-          connection.setActiveSessionHandler(StateRegistry.PLAY, playHandler);
+          connection.setActiveSessionHandler(connection.getState(), playHandler);
         } catch (Throwable e) {
           throw new ReflectionException(e);
         }
